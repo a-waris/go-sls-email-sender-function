@@ -1,0 +1,25 @@
+parameters: {}
+environment: {}
+packages:
+    - name: contact-form
+      shared: false
+      environment:
+        DB_USER: "${DB_USER}"
+        DB_PASSWORD: "${DB_PASSWORD}"
+        DB_HOST: "${DB_HOST}"
+        DB_PORT: "${DB_PORT}"
+        DB_NAME: "${DB_NAME}"
+      parameters: {}
+      annotations: {}
+      functions:
+        - name: contact-form-handler
+          binary: false
+          main: ""
+          runtime: go:1.20
+          web: true
+          webSecure: "${X_REQUIRE_WHISK_AUTH}"
+          parameters: {}
+          environment:
+            X_REQUIRE_WHISK_AUTH: "${X_REQUIRE_WHISK_AUTH}"
+          annotations: {}
+          limits: {}

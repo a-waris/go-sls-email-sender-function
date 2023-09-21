@@ -1,0 +1,17 @@
+<div>
+    We have received a new offer contact<br/><br/>
+
+    Email from: {{ .Name }}<br/>
+    Email address: {{ .Email }}<br/>
+    Phone: {{$data['phone']}}<br/>
+
+    {{if .CompanyName}}
+    Company Name: {{ .CompanyName }}<br/>
+    {{end}}
+
+    {{ if .NoOfEmployee }}
+    No of Employee's: {{ .NoOfEmployee }}<br/>
+    {{end}}
+
+    Please get to work!!<br/>
+</div>

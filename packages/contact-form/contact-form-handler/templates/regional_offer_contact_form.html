@@ -1,0 +1,22 @@
+<div>
+    We have received a new offer contact<br/><br/>
+
+    Email from: {{ .Name }}<br/>
+    Email address: {{ .Email }}<br/>
+    Phone: {{ .Phone }}<br/>
+
+    {{if .CompanyName}}
+    Company Name: {{ .CompanyName }}<br/>
+    {{end}}
+
+    {{ if .NoOfEmployee }}
+    No of Employee's: {{ .NoOfEmployee }}<br/>
+    {{end}}
+
+    {{if .Region}}
+    Region: {{ .Region }}<br/>
+    {{end}}
+
+    <br/>
+    Please get to work!!<br/>
+</div>
