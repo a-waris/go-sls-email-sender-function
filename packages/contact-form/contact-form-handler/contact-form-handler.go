@@ -1,6 +1,7 @@
 package main
 
 import (
+	"embed"
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -18,7 +19,11 @@ var formTypes = map[string]FormType{
 }
 */
 
+//go:embed templates/*
+var templatesFS embed.FS
+
 func Main(args map[string]interface{}) map[string]interface{} {
+
 	response := make(map[string]interface{})
 
 	form, err := extractFormFromArgs(args)
@@ -58,4 +63,8 @@ func sendUserEmail(form TaggedOfferContactForm) error {
 	userSubject := "Resourceinn (HRM) | Thank You!"
 	userTemplatePath := getTemplatePath("offer_contact_form_sender_reply.html")
 	return sendEmail(userTemplatePath, userSubject, form.Email, nil, form)
+}
+
+func getTemplatePath(filename string) string {
+	return "templates/" + filename
 }

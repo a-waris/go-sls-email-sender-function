@@ -94,16 +94,14 @@ func insertFormIntoDB(form TaggedOfferContactForm) error {
 }
 
 func sendEmail(templatePath, subject, to string, cc []string, form TaggedOfferContactForm) error {
-	if _, err := os.Stat(templatePath); os.IsNotExist(err) {
-		fmt.Println("templatePath does not exist, path: ", templatePath)
+	// Read the template directly from the embedded filesystem
+	templateContent, err := templatesFS.ReadFile(templatePath)
+	if err != nil {
+		fmt.Println("Failed to read embedded template:", err)
+		return err
 	}
 
-	wd, err := os.Getwd()
-	if err != nil {
-		fmt.Println("Error getting current directory:", err)
-	} else {
-		fmt.Println("Current directory:", wd)
-	}
+	//fmt.Println(string(templateContent))
 
 	fromAddress := os.Getenv("MAIL_FROM_ADDRESS")
 	fromName := os.Getenv("MAIL_FROM_NAME")
@@ -111,14 +109,10 @@ func sendEmail(templatePath, subject, to string, cc []string, form TaggedOfferCo
 	smtpHost := os.Getenv("MAIL_HOST")
 	smtpPort := os.Getenv("MAIL_PORT")
 
-	// print smtpHost, smtpPort, fromAddress, password, fromName
-
-	_ = fmt.Sprintf("smtpHost: %s, smtpPort: %s, fromAddress: %s, password: %s, fromName: %s", smtpHost, smtpPort, fromAddress, password, fromName)
-
 	auth := smtp.PlainAuth("", fromAddress, password, smtpHost)
 
 	// Parse and execute the HTML template
-	tmpl, err := template.ParseFiles(templatePath)
+	tmpl, err := template.New("emailTemplate").Parse(string(templateContent))
 	if err != nil {
 		return err
 	}
@@ -151,9 +145,4 @@ func sendEmail(templatePath, subject, to string, cc []string, form TaggedOfferCo
 	}
 
 	return nil
-}
-
-func getTemplatePath(filename string) string {
-	wd, _ := os.Getwd()
-	return wd + "/" + filename
 }
