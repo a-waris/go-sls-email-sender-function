@@ -1,4 +1,4 @@
-# Contact Form Serverless Function
+# Go Contact Form Functions
 
 This project is designed to handle contact form submissions. Upon receiving a submission, it performs the following tasks:
 
